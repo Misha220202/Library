@@ -1,0 +1,234 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --border-inValid: 2px solid red;
+    --book-width: 15rem;
+    --tag-width: 4rem;
+    --border-hover: 3px solid black;
+    --border-hover-white: 3px solid white;
+    --color-blue: rgb(152, 152, 255);
+    --color-light-green: rgb(176, 255, 229);
+    --color-light-red: rgb(255, 177, 177);
+    --padding-horizontal: 2rem;
+    --padding-vertical: 1rem;
+    --shadow-margin: 5px;
+    --box-shadow-vertical: 0 var(--shadow-margin) var(--shadow-margin) rgb(211, 211, 211);
+    --box-shadow: var(--shadow-margin) var(--shadow-margin) var(--shadow-margin) rgb(211, 211, 211);
+}
+
+body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding-vertical) var(--padding-horizontal);
+    height: 10rem;
+    background-color: var(--color-blue);
+    box-shadow: var(--box-shadow-vertical);
+}
+
+.nav>.logo {
+    font: bold 4rem Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif;
+}
+
+.nav>.login {
+    width: 12rem;
+    height: 4rem;
+    border: none;
+    border-radius: 1rem;
+    font: bold 2rem system-ui, sans-serif;
+}
+
+.nav>.login:hover,
+form .submit:hover {
+    cursor: pointer;
+    border: var(--border-hover);
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.list {
+    background-color: var(--color-blue);
+    width: 20rem;
+    padding: 0 var(--padding-horizontal);
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+}
+
+.list h4 {
+    font: normal 2rem Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif;
+}
+
+.books {
+    padding: var(--padding-horizontal);
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, var(--book-width));
+    gap: 2rem;
+}
+
+.book,
+.createBook {
+    display: grid;
+    place-content: center;
+    font: normal 1.2rem sans-serif;
+    border: 5px solid rgb(190, 190, 190);
+    border-radius: 2rem;
+    width: var(--book-width);
+    height: 20rem;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.book:hover {
+    border: 5px solid black;
+}
+
+.book {
+    position: relative;
+    background: linear-gradient(to right, var(--color-light-red), white 60%);
+}
+
+.Read {
+    background: linear-gradient(to right, var(--color-light-green), white 60%);
+}
+
+.book>div {
+    display: flex;
+}
+
+.iconContainer {
+    position: absolute;
+    top: 4%;
+    right: 5%;
+    gap: 0.8rem;
+}
+
+.iconButton:hover {
+    cursor: pointer;
+}
+
+.book>div>.tag {
+    width: var(--tag-width);
+}
+
+.book>div>.content {
+    flex: 1;
+    overflow-wrap: break-word;
+}
+
+.demo {
+    display: none;
+}
+
+.readFlag {
+    filter: brightness(0) saturate(100%) invert(14%) sepia(98%) saturate(7486%) hue-rotate(1deg) brightness(91%) contrast(105%);
+}
+
+.Read .readFlag {
+    filter: brightness(0) saturate(100%) invert(35%) sepia(78%) saturate(3350%) hue-rotate(90deg) brightness(92%) contrast(94%);
+}
+
+.createBook {
+    place-items: center;
+}
+
+.addBook {
+    height: 8rem;
+}
+
+.addBook:hover {
+    cursor: pointer;
+    border: var(--border-hover-white);
+}
+
+.footer {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, -50%);
+    font: normal 1rem sans-serif;
+    text-align: center;
+}
+
+#bookDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2rem;
+}
+
+form {
+    display: grid;
+    place-content: center;
+    height: 20rem;
+    width: var(--book-width);
+    gap: 1rem;
+}
+
+fieldset {
+    border: none;
+    display: grid;
+    place-content: center;
+    gap: 1rem;
+}
+
+fieldset>div {
+    display: flex;
+}
+
+fieldset>div>label {
+    width: var(--tag-width);
+}
+
+fieldset>div>input {
+    flex: 1;
+}
+
+form>div {
+    place-self: center;
+}
+
+form .submit {
+    width: 8rem;
+    height: 2.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font: bold 1rem system-ui, sans-serif;
+    background-color: var(--color-light-green);
+}
+
+.inValid {
+    border: var(--border-inValid);
+    border-radius: 3px;
+}
+
+#hint {
+    height: 8rem;
+    width: 12rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 0.5rem;
+    color: red;
+    padding: 3.2rem 1.5rem;
+}

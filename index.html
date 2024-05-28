@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="./index.css">
+    <script src="./index.js" defer></script>
+</head>
+
+<body>
+    <div class="nav">
+        <p class="logo">Library</p>
+        <button class="login" type="submit">Login</button>
+    </div>
+    <div class="container">
+        <div class="list">
+            <div>
+                <h4>Read</h4>
+                <ul class="readList">
+                    <li class="demo">Test Book</li>
+                    <li>Think and Grow Rich</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Not Read</h4>
+                <ul class="notReadList">
+                    <li>Dopamine Detox</li>
+                </ul>
+            </div>
+        </div>
+        <div class="books">
+            <div class="book Read" value="Think and Grow Rich">
+                <div class="iconContainer">
+                    <img class="iconButton readFlag" src="./image/book-open.svg" alt="readFlag">
+                    <img class="iconButton delete" src="./image/trash-2.svg" alt="delete">
+                </div>
+                <div class="title">
+                    <p class="tag">Title:</p>
+                    <p class="value">Think and Grow Rich</p>
+                </div>
+                <div class="author">
+                    <p class="tag">Author:</p>
+                    <p class="value">Napoleon Hill</p>
+                </div>
+                <div class="pages">
+                    <p class="tag">Pages:</p>
+                    <p class="value">320</p>
+                </div>
+            </div>
+            <div class="book demo Read" value="Test Book">
+                <div class="iconContainer">
+                    <img class="iconButton readFlag" src="./image/book-open.svg" alt="readFlag">
+                    <img class="iconButton delete" src="./image/trash-2.svg" alt="delete">
+                </div>
+                <div class="title">
+                    <p class="tag">Title:</p>
+                    <p class="value">Test Book</p>
+                </div>
+                <div class="author">
+                    <p class="tag">Author:</p>
+                    <p class="value">Misha</p>
+                </div>
+                <div class="pages">
+                    <p class="tag">Pages:</p>
+                    <p class="value">99</p>
+                </div>
+            </div>
+            <div class="book notRead" value="Dopamine Detox">
+                <div class="iconContainer">
+                    <img class="iconButton readFlag" src="./image/book-open.svg" alt="readFlag">
+                    <img class="iconButton delete" src="./image/trash-2.svg" alt="delete">
+                </div>
+                <div class="title">
+                    <p class="tag">Title:</p>
+                    <p class="value">Dopamine Detox</p>
+                </div>
+                <div class="author">
+                    <p class="tag">Author:</p>
+                    <p class="value">Thibaut Meurisse</p>
+                </div>
+                <div class="pages">
+                    <p class="tag">Pages:</p>
+                    <p class="value">72</p>
+                </div>
+            </div>
+            <div class="createBook">
+                <p>Add New Book</p>
+                <img class="iconButton addBook" src="./image/plus-circle.svg" alt="addBook">
+            </div>
+        </div>
+    </div>
+    <div class="footer">Copyright@2024 MISHA</div>
+    <dialog id="bookDialog">
+        <form action="#" method="dialog">
+            <fieldset>
+                <div>
+                    <label for="Title">Title</label>
+                    <input type="text" id="Title" name="Title">
+                </div>
+                <div>
+                    <label for="Author">Author</label>
+                    <input type="text" id="Author" name="Author">
+                </div>
+                <div>
+                    <label for="Pages">Pages</label>
+                    <input type="text" id="Pages" name="Pages" pattern="^\d{1,4}$" maxlength="4">
+                </div>
+            </fieldset>
+            <div>
+                <label for="read">Have you read it?</label>
+                <input type="checkbox" id="read" name="read" value="read">
+            </div>
+            <div>
+                <button class="submit" type="submit">Submit</button>
+            </div>
+            <div class="iconContainer">
+                <img class="iconButton cancel" src="./image/x-square.svg" alt="cancel">
+            </div>
+        </form>
+    </dialog>
+    <dialog id="hint">
+        <div class="iconContainer">
+            <img class="iconButton cancel" src="./image/x-square.svg" alt="cancel">
+        </div>
+        <p>Book already exists!</p>
+    </dialog>
+
+</html>
