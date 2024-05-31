@@ -1,6 +1,4 @@
-*,
-::before,
-::after {
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -161,7 +159,7 @@ form .submit:hover {
     border: var(--border-hover-white);
 }
 
-.footer {
+footer {
     position: absolute;
     left: 50%;
     bottom: 0;
