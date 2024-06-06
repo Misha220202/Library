@@ -12,14 +12,13 @@
 <body>
     <div class="nav">
         <p class="logo">Library</p>
-        <button class="login" type="submit">Login</button>
+        <button class="createBook" type="submit">Add Book</button>
     </div>
     <div class="container">
         <div class="list">
             <div>
                 <h4>Read</h4>
                 <ul class="readList">
-                    <li class="demo">Test Book</li>
                     <li>Think and Grow Rich</li>
                 </ul>
             </div>
@@ -30,26 +29,28 @@
                 </ul>
             </div>
         </div>
-        <div class="books">
-            <div class="book Read" value="Think and Grow Rich">
-                <div class="iconContainer">
-                    <img class="iconButton readFlag" src="./image/book-open.svg" alt="readFlag">
-                    <img class="iconButton delete" src="./image/trash-2.svg" alt="delete">
-                </div>
-                <div class="title">
-                    <p class="tag">Title:</p>
-                    <p class="value">Think and Grow Rich</p>
-                </div>
-                <div class="author">
-                    <p class="tag">Author:</p>
-                    <p class="value">Napoleon Hill</p>
-                </div>
-                <div class="pages">
-                    <p class="tag">Pages:</p>
-                    <p class="value">320</p>
+        <div class="gallery">
+            <div class="readList">
+                <div class="book Read" value="Think and Grow Rich">
+                    <div class="iconContainer">
+                        <img class="iconButton readFlag" src="./image/book-open.svg" alt="readFlag">
+                        <img class="iconButton delete" src="./image/trash-2.svg" alt="delete">
+                    </div>
+                    <div class="title">
+                        <p class="tag">Title:</p>
+                        <p class="value">Think and Grow Rich</p>
+                    </div>
+                    <div class="author">
+                        <p class="tag">Author:</p>
+                        <p class="value">Napoleon Hill</p>
+                    </div>
+                    <div class="pages">
+                        <p class="tag">Pages:</p>
+                        <p class="value">320</p>
+                    </div>
                 </div>
             </div>
-            <div class="book demo Read" value="Test Book">
+            <div class="book demo" value="Test Book">
                 <div class="iconContainer">
                     <img class="iconButton readFlag" src="./image/book-open.svg" alt="readFlag">
                     <img class="iconButton delete" src="./image/trash-2.svg" alt="delete">
@@ -67,27 +68,25 @@
                     <p class="value">99</p>
                 </div>
             </div>
-            <div class="book notRead" value="Dopamine Detox">
-                <div class="iconContainer">
-                    <img class="iconButton readFlag" src="./image/book-open.svg" alt="readFlag">
-                    <img class="iconButton delete" src="./image/trash-2.svg" alt="delete">
+            <div class="notReadList">
+                <div class="book notRead" value="Dopamine Detox">
+                    <div class="iconContainer">
+                        <img class="iconButton readFlag" src="./image/book-open.svg" alt="readFlag">
+                        <img class="iconButton delete" src="./image/trash-2.svg" alt="delete">
+                    </div>
+                    <div class="title">
+                        <p class="tag">Title:</p>
+                        <p class="value">Dopamine Detox</p>
+                    </div>
+                    <div class="author">
+                        <p class="tag">Author:</p>
+                        <p class="value">Thibaut Meurisse</p>
+                    </div>
+                    <div class="pages">
+                        <p class="tag">Pages:</p>
+                        <p class="value">72</p>
+                    </div>
                 </div>
-                <div class="title">
-                    <p class="tag">Title:</p>
-                    <p class="value">Dopamine Detox</p>
-                </div>
-                <div class="author">
-                    <p class="tag">Author:</p>
-                    <p class="value">Thibaut Meurisse</p>
-                </div>
-                <div class="pages">
-                    <p class="tag">Pages:</p>
-                    <p class="value">72</p>
-                </div>
-            </div>
-            <div class="createBook">
-                <p>Add New Book</p>
-                <img class="iconButton addBook" src="./image/plus-circle.svg" alt="addBook">
             </div>
         </div>
     </div>
@@ -107,11 +106,11 @@
                     <label for="Pages">Pages</label>
                     <input type="text" id="Pages" name="Pages" pattern="^\d{1,4}$" maxlength="4">
                 </div>
+                <p>
+                    <label for="read">Have you read it?</label>
+                    <input type="checkbox" id="read" name="read" value="read">
+                </p>
             </fieldset>
-            <div>
-                <label for="read">Have you read it?</label>
-                <input type="checkbox" id="read" name="read" value="read">
-            </div>
             <div>
                 <button class="submit" type="submit">Submit</button>
             </div>

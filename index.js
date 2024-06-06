@@ -1,21 +1,119 @@
 const login = document.querySelector('.login');
-login.addEventListener('click', () => location.reload());
-
 const list = document.querySelector('.list');
-const readList = document.querySelector('.readList');
-const notReadList = document.querySelector('.notReadList');
-const books = document.querySelector('.books');
-const demo = document.querySelector('.book.demo');
+const gallery = document.querySelector('.gallery');
 const createBook = document.querySelector('.createBook');
-const addBook = document.querySelector('.addBook');
 const bookDialog = document.querySelector('#bookDialog');
 const form = document.querySelector('form');
-const inputs = form.querySelectorAll('fieldset input');
-const checkbox = form.querySelector('#read');
+const inputs = form.querySelectorAll('fieldset>div>input');
+const checkbox = form.querySelector('fieldset>p>input')
 const formCancel = form.querySelector('.cancel');
 const submit = form.querySelector('button');
 const hint = document.querySelector('#hint');
 const hintCancel = hint.querySelector('.cancel');
+
+class Book {
+    constructor(title, author, pages, readStatus) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.readStatus = readStatus;
+    }
+}
+
+const book1 = new Book('Think and Grow Rich', 'Napoleon Hill', 320, 'Read');
+const book2 = new Book('Dopamine Detox', 'Thibaut Meurisse', 72, 'notRead');
+const readArr = [book1];
+const notReadArr = [book2];
+
+class ListBinding {
+    constructor(element) {
+        this.element = element;
+    }
+
+    get arr() {
+        return this.element.classList.contains('readList') ? readArr : notReadArr;
+    }
+
+    set arr(arr) {
+        this.arr = arr;
+    }
+
+    static createNode(book) {
+        const li = document.createElement('li');
+        li.textContent = book.title;
+        return li;
+    }
+
+    update() {
+        while (this.element.firstChild) {
+            this.element.removeChild(this.element.firstChild);
+        }
+        for (let i = 0; i < this.arr.length; i++) {
+            this.element.appendChild(ListBinding.createNode(this.arr[i]));
+        }
+    }
+
+    add(book) {
+        this.arr.push(book);
+        this.update();
+    }
+
+    delete(index) {
+        this.arr.splice(index, 1);
+        this.update();
+    }
+
+    toggleReadStatus(index) {
+        const toggledBook = this.arr[index];
+        if (toggledBook.readStatus == 'Read') {
+            readArr.splice(index, 1);
+            toggledBook.readStatus = 'notRead';
+            notReadArr.push(toggledBook);
+        } else {
+            notReadArr.splice(index, 1);
+            toggledBook.readStatus = 'Read';
+            readArr.push(toggledBook);
+        }
+        this.update();
+    }
+}
+
+const readList = document.querySelector('.list .readList');
+const notReadList = document.querySelector('.list .notReadList');
+const readListBinding = new ListBinding(readList);
+const notReadListBinding = new ListBinding(notReadList);
+
+class GalleryBinding extends ListBinding {
+    static createNode(book) {
+        const demo = document.querySelector('.book.demo');
+        const bookNode = demo.cloneNode(true);
+        const title = bookNode.querySelector('.title>.value');
+        const author = bookNode.querySelector('.author>.value');
+        const pages = bookNode.querySelector('.pages>.value');
+        title.textContent = book.title;
+        author.textContent = book.author;
+        pages.textContent = book.pages;
+        bookNode.setAttribute('value', `${book.title}`);
+        bookNode.setAttribute('class', `book ${book.readStatus}`);
+        return bookNode;
+    }
+
+    update() {
+        while (this.element.firstChild) {
+            this.element.removeChild(this.element.firstChild);
+        }
+        for (let i = 0; i < this.arr.length; i++) {
+            this.element.appendChild(GalleryBinding.createNode(this.arr[i]));
+        }
+    }
+}
+
+const readGallery = document.querySelector('.gallery>.readList');
+const notReadGallery = document.querySelector('.gallery>.notReadList');
+const readGalleryBinding = new GalleryBinding(readGallery);
+const notReadGalleryBinding = new GalleryBinding(notReadGallery);
+
+createBook.addEventListener('click', () => bookDialog.showModal());
 
 inputs.forEach(input => {
     input.addEventListener('input', () => {
@@ -23,12 +121,13 @@ inputs.forEach(input => {
     })
 })
 
-function formClose(){
+function formClose() {
     bookDialog.close();
     inputs.forEach(input => {
-        input.value = ''
+        input.value = '';
         input.classList.remove('inValid');
-    });
+    })
+    checkbox.checked = false;
 }
 
 formCancel.addEventListener('click', formClose);
@@ -38,16 +137,15 @@ hintCancel.addEventListener('click', () => {
     formClose();
 });
 
-function Book(title, author, pages, readStatus) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.readStatus = readStatus;
+function updateAll() {
+    readListBinding.update();
+    readGalleryBinding.update();
+    notReadListBinding.update();
+    notReadGalleryBinding.update();
 }
 
-const Library = [new Book('Think and Grow Rich', 'Napoleon Hill', 320, 'Read'), new Book('Dopamine Detox', 'Thibaut Meurisse', 72, 'notRead')];
-
 submit.addEventListener('click', event => {
+    const library = readArr.concat(notReadArr);
     let allValid = true;
     inputs.forEach(input => {
         if (!(input.validity.valid == true && input.value)) {
@@ -56,75 +154,49 @@ submit.addEventListener('click', event => {
             input.classList.add('inValid');
         }
     })
-    if (Library.find(thisBook => thisBook.title == inputs[0].value)) {
+    if (library.find(book => book.title == inputs[0].value)) {
         event.preventDefault();
         allValid = false;
         inputs[0].classList.add('inValid');
         hint.showModal();
     }
     if (allValid == true) {
-        const book = demo.cloneNode(true);
-        const title = book.querySelector('.title>.value');
-        const author = book.querySelector('.author>.value');
-        const pages = book.querySelector('.pages>.value');
-        const li = document.createElement('li');
-        title.textContent = inputs[0].value;
-        author.textContent = inputs[1].value;
-        pages.textContent = inputs[2].value;
-        li.textContent = title.textContent;
-        book.setAttribute('value', `${title.textContent}`);
-        if (checkbox.checked == true) {
-            book.setAttribute('class', 'book Read');
-            books.insertBefore(book, demo);
-            readList.appendChild(li);
-        } else {
-            book.setAttribute('class', 'book notRead');
-            books.insertBefore(book, createBook);
-            notReadList.appendChild(li);
-        }
-        const thisBook = new Book(title.textContent, author.textContent, Number(pages.textContent), book.classList[1]);
-        Library.push(thisBook);
+        const title = inputs[0].value;
+        const author = inputs[1].value;
+        const pages = inputs[2].value;
+        const readStatus = checkbox.checked == true ? 'Read' : 'notRead';
+        const book = new Book(title, author, pages, readStatus);
+        book.readStatus == 'Read' ? readListBinding.add(book) : notReadListBinding.add(book);
+        updateAll();
         inputs.forEach(input => input.value = '');
         checkbox.checked = false;
         bookDialog.close();
     }
 })
 
-books.addEventListener('click', event => {
+gallery.addEventListener('click', event => {
     const classList = event.target.classList;
-    if (classList.contains('addBook')) {
-        bookDialog.showModal();
-    } else {
-        const book = event.target.parentNode.parentNode;
-        const value = book.getAttribute('value');
-        const listNode = Array.from(list.querySelectorAll('li')).find(li => li.textContent == value);
-        const index = Library.findIndex(thisBook => thisBook.title == value);
-        if (classList.contains('readFlag')) {
-            if (book.classList.contains('Read')) {
-                book.classList.remove('Read');
-                book.classList.add('notRead');
-                books.removeChild(book);
-                books.insertBefore(book, createBook);
-                readList.removeChild(listNode);
-                notReadList.appendChild(listNode);
-                Library[index].readStatus = 'notRead';
-            } else {
-                book.classList.remove('notRead');
-                book.classList.add('Read');
-                books.removeChild(book);
-                books.insertBefore(book, demo);
-                notReadList.removeChild(listNode);
-                readList.appendChild(listNode);
-                Library[index].readStatus = 'Read';
-            }
-        } else if (classList.contains('delete')) {
-            if (book.classList.contains('Read')) {
-                readList.removeChild(listNode);
-            } else {
-                notReadList.removeChild(listNode);
-            }
-            books.removeChild(book);
-            Library.splice(index, 1);
+    const bookNode = event.target.parentNode.parentNode;
+    const parent = bookNode.parentNode;
+    const children = parent.children;
+    let index = 0;
+    for (let i = 0; i < children.length; i++) {
+        if (children[i] === bookNode) {
+            index = i;
         }
     }
+    if (classList.contains('readFlag')) {
+        if (bookNode.classList.contains('Read')) {
+            readListBinding.toggleReadStatus(index);
+        } else {
+            notReadListBinding.toggleReadStatus(index);
+        }
+    } else if (classList.contains('delete')) {
+        if (bookNode.classList.contains('Read')) {
+            readListBinding.delete(index);
+        } else {
+            notReadListBinding.delete(index);
+        }
+    }
+    updateAll();
 })
