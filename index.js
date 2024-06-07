@@ -1,4 +1,3 @@
-const login = document.querySelector('.login');
 const list = document.querySelector('.list');
 const gallery = document.querySelector('.gallery');
 const createBook = document.querySelector('.createBook');
@@ -12,7 +11,7 @@ const hint = document.querySelector('#hint');
 const hintCancel = hint.querySelector('.cancel');
 
 class Book {
-    constructor(title, author, pages, readStatus) {
+    constructor(title, author, pages, readStatus) {S
         this.title = title;
         this.author = author;
         this.pages = pages;
