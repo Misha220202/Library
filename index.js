@@ -24,7 +24,7 @@ const book2 = new Book('Dopamine Detox', 'Thibaut Meurisse', 72, 'notRead');
 const readArr = [book1];
 const notReadArr = [book2];
 
-class ListBinding {
+class BookListNodeManager {
     constructor(element) {
         this.element = element;
     }
@@ -37,10 +37,8 @@ class ListBinding {
         this.arr = arr;
     }
 
-    static createNode(book) {
-        const li = document.createElement('li');
-        li.textContent = book.title;
-        return li;
+    createNode(book) {
+        // This method should be overridden by subclasses
     }
 
     update() {
@@ -48,7 +46,7 @@ class ListBinding {
             this.element.removeChild(this.element.firstChild);
         }
         for (let i = 0; i < this.arr.length; i++) {
-            this.element.appendChild(ListBinding.createNode(this.arr[i]));
+            this.element.appendChild(this.createNode(this.arr[i]));
         }
     }
 
@@ -77,13 +75,21 @@ class ListBinding {
     }
 }
 
+class ListBinding extends BookListNodeManager{
+    createNode(book) {
+        const li = document.createElement('li');
+        li.textContent = book.title;
+        return li;
+    }
+}
+
 const readList = document.querySelector('.list .readList');
 const notReadList = document.querySelector('.list .notReadList');
 const readListBinding = new ListBinding(readList);
 const notReadListBinding = new ListBinding(notReadList);
 
-class GalleryBinding extends ListBinding {
-    static createNode(book) {
+class GalleryBinding extends BookListNodeManager {
+    createNode(book) {
         const demo = document.querySelector('.book.demo');
         const bookNode = demo.cloneNode(true);
         const title = bookNode.querySelector('.title>.value');
@@ -95,15 +101,6 @@ class GalleryBinding extends ListBinding {
         bookNode.setAttribute('value', `${book.title}`);
         bookNode.setAttribute('class', `book ${book.readStatus}`);
         return bookNode;
-    }
-
-    update() {
-        while (this.element.firstChild) {
-            this.element.removeChild(this.element.firstChild);
-        }
-        for (let i = 0; i < this.arr.length; i++) {
-            this.element.appendChild(GalleryBinding.createNode(this.arr[i]));
-        }
     }
 }
 
